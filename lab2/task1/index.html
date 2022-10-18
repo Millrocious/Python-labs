@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Обробка даних форми</title>
+</head>
+<body>
+    <form action="/cgi-bin/form.py" method = "post">
+        Введіть число 1: <input type="text" name="xxx">
+        Введіть число 2: <input type="text" name="yyy"><br><br>
+        Введіть ім'я: <input type="text" name="test">
+
+    <br>
+        <select name="dropdown">
+            <option value="Maths" selected="">Maths</option>
+            <option value="Physics">Physics</option>
+            <option value="Python">Python Web</option>
+        </select>
+    <br>
+
+    <input type="checkbox" name="maths" value="math"> Maths2
+    <input type="checkbox" name="physics" value="physics"> Physics2
+
+    <br>
+    <div>
+        <input type="radio" name="lang" value="english" checked> English
+        <input type="radio" name="lang" value="german"> German
+    </div>
+    <br>
+
+
+    <input type="submit">
+    </form>
+</body>
+</html>
