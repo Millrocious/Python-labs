@@ -1,0 +1,30 @@
+{% extends 'layouts.html' %}
+
+{% block content %}
+<div style=" min-height: 90vh;">
+<h1 style="margin-left: 50px">Python If statement</h1>
+<p style="margin-left: 50px">
+  An "if statement" is written by using the <code>if</code> keyword.
+</p>
+<div class="codeBlock">
+  <h3>Example:</h3>
+  <pre>
+    a = 33
+    b = 200
+    if b > a:
+        print("b is greater than a")
+  </pre>
+</div>
+
+<div class="codeBlock" style="margin-top: 40px">
+  <h3>Output:</h3>
+  <pre>
+    b is greater than a
+  </pre>
+</div>
+<p  style="margin-left: 50px; margin-top: 50px">In this example we use two variables, <code>a</code> and <code>b</code>, which are used as part of the if statement to test whether <code>b</code> is
+    greater than <code>a</code>. As <code>a</code> is <code>33</code>, and <code>b</code> is <code>200</code>,<br>
+    we know that 200 is greater than 33, and so we print to screen
+    that "b is greater than a".</p>
+</div>
+{% endblock content %}

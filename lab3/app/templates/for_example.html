@@ -1,0 +1,31 @@
+{% extends 'layouts.html' %}
+
+{% block content %}
+<div style=" min-height: 90vh;">
+  <h1 style="margin-left: 50px">Python For loops</h1>
+<p style="margin-left: 50px">
+  A for loop is used for iterating over a sequence (that is either a list, a tuple, a dictionary, a set, or a string).
+
+This is less like the for keyword in other programming languages, and works more like an iterator method as found in other object-orientated programming languages.
+
+With the for loop we can execute a set of statements, once for each item in a list, tuple, set etc.
+</p>
+<div class="codeBlock">
+  <h3>Example:</h3>
+  <pre>
+    fruits = ["apple", "banana", "cherry"]
+    for x in fruits:
+      print(x)
+  </pre>
+</div>
+
+<div class="codeBlock" style="margin-top: 60px">
+  <h3>Output:</h3>
+  <pre>
+    apple
+    banana
+    cherry
+  </pre>
+</div>
+</div>
+{% endblock content %}
