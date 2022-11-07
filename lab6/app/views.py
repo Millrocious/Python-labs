@@ -46,7 +46,6 @@ def reset():
     if session.get('email') is not None and session.get('name') is not None:
         session.pop("email")
         session.pop("name")
-        return redirect(url_for("contact"))
     return redirect(url_for("contact"))
 
 
