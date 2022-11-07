@@ -26,8 +26,6 @@ def contact():
         db.session.add(Contact(name=form.name.data, email=form.email.data, phone=form.phone.data,
                                subject=form.subject.data, message=form.message.data))
         db.session.commit()
-        logger.debug(db.session.query(Contact).get(1))
-        logger.debug(db.session.query(Contact))
         session['name'] = form.name.data
         session['email'] = form.email.data
         flash(f"Дані успішно відправлено: {form.name.data}, {form.email.data}", category='success')
