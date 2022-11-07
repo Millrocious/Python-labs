@@ -1,0 +1,64 @@
+.Welcome {
+    display: flex;
+    justify-content: center;
+}
+
+.Welcome .wt {
+    background-color: #999999;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+}
+
+.mainbox {
+    display: flex;
+    flex-direction: row;
+    padding: 100px;
+    justify-content: space-between;
+}
+
+.imgBox {
+    border: 2px solid #999999;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+    width: 850px;
+    flex-direction: column;
+}
+
+.imgBox img {
+    width: 50%;
+    height: 50%;
+}
+
+.imgBox p {
+    font-size: 4em;
+}
+
+.codeBlock {
+    background-color: #dbdbdb;
+    border-radius: 10px;
+    padding: 10px;
+    width: 500px;
+    margin-left: 50px;
+}
+
+footer {
+    bottom: 0;
+}
+
+.form-contact {
+    display: flex;
+    justify-content: center;
+}
+
+/*
+.form-group {
+    width: 500px;
+    background-color: #dbdbdb;
+    padding: 50px;
+    margin: 20px;
+    border-radius: 20px;
+}*/
