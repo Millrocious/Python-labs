@@ -11,14 +11,3 @@ class Contact(db.Model):
 
     def __repr__(self):
         return '<Contact %r>' % self.name
-
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(40), unique=True, nullable=False)
-    email = db.Column(db.String(60), unique=True, nullable=False)
-    password = db.Column(db.String(40), unique=False, nullable=False)
-
-    def __repr__(self):
-        return '<User %r>' % self.username
-

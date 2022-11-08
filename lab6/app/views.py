@@ -21,10 +21,10 @@ def contact():
                     Name = {form.name.data}
                     Email = {form.email.data}
                     Phone = {form.phone.data}
-                    Subject = {form.subject.data}
+                    Subject = {dict(form.subject.choices).get(form.subject.data)}
                     Message = {form.message.data}""")
         db.session.add(Contact(name=form.name.data, email=form.email.data, phone=form.phone.data,
-                               subject=form.subject.data, message=form.message.data))
+                               subject=dict(form.subject.choices).get(form.subject.data), message=form.message.data))
         db.session.commit()
         session['name'] = form.name.data
         session['email'] = form.email.data
