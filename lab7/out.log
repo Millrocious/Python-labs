@@ -80,3 +80,9 @@ FROM contact
                     Phone = +380000000003
                     Subject = english
                     Message = yututyu
+2022-11-12 18:15:13.621 | DEBUG    | app.views:contact:20 - The form is sent in 2022-11-12 18:15:13.621675
+                    Name = jjhjjhg
+                    Email = vcxjjhjvxv@dfjhgjdf.com
+                    Phone = +380000000000
+                    Subject = math
+                    Message = dffsdfsdf
