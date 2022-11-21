@@ -3,13 +3,13 @@ import datetime
 
 from loguru import logger
 
-from app import db
-from app.contact import contact
-from app.contact.forms import ContactForm
-from app.contact.models import Contact
+from .. import db
+from . import contact_bp
+from .forms import ContactForm
+from .models import Contact
 
 
-@contact.route('/contact', methods=["GET", "POST"])
+@contact_bp.route('/contact', methods=["GET", "POST"])
 def contact():
     form = ContactForm()
     if form.validate_on_submit():
@@ -32,7 +32,7 @@ def contact():
         session['name'] = form.name.data
         session['email'] = form.email.data
         flash(f"Дані успішно відправлено: {form.name.data}, {form.email.data}", category='success')
-        return redirect(url_for("contact"))
+        return redirect(url_for("contact_bp"))
 
     elif request.method == 'POST':
         flash("Не пройшла валідація з Post", category='warning')
@@ -42,20 +42,20 @@ def contact():
     return render_template('contact.html', form=form)
 
 
-@contact.route('/reset', methods=["GET", "POST"])
+@contact_bp.route('/reset', methods=["GET", "POST"])
 def reset():
     if session.get('email') is not None and session.get('name') is not None:
         session.pop("email")
         session.pop("name")
-    return redirect(url_for("contact"))
+    return redirect(url_for("contact_bp"))
 
 
-@contact.route('/display_contacts', methods=["GET", "POST"])
+@contact_bp.route('/display_contacts', methods=["GET", "POST"])
 def display_contacts():
     return render_template('contact_table.html', contacts=Contact.query.all())
 
 
-@contact.route('/delete_contact/<contact_id>', methods=["GET", "POST"])
+@contact_bp.route('/delete_contact/<contact_id>', methods=["GET", "POST"])
 def delete_contact(contact_id):
     try:
         db.session.delete(db.session.query(Contact).get(2))

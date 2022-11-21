@@ -1,13 +1,13 @@
 from flask import render_template, flash, redirect, url_for
 from flask_login import login_required, logout_user, login_user, current_user
 
-from . import auth
+from . import auth_bp
 from .forms import LoginForm, RegistrationForm
 from .models import User
 from .. import db
 
 
-@auth.route('/register', methods=["GET", "POST"])
+@auth_bp.route('/register', methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
         flash(f'Please logout to create new account!', category='warning')
@@ -27,7 +27,7 @@ def register():
     return render_template('register.html', form=form, title='Register')
 
 
-@auth.route('/login', methods=["GET", "POST"])
+@auth_bp.route('/login', methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
         flash(f'You already logged in!', category='warning')
@@ -44,14 +44,14 @@ def login():
     return render_template('login.html', form=form, title='Login')
 
 
-@auth.route('/logout')
+@auth_bp.route('/logout')
 def logout():
     logout_user()
     flash('You have been logged out', category='success')
     return redirect(url_for('homepage'))
 
 
-@auth.route('/users')
+@auth_bp.route('/users')
 def users():
     all_users = User.query.all()
     if all_users:
@@ -60,7 +60,7 @@ def users():
     return render_template('user_table.html', users=all_users)
 
 
-@auth.route('/account')
+@auth_bp.route('/account')
 @login_required
 def account():
     return render_template('account.html', title='Account')
