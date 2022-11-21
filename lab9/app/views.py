@@ -4,15 +4,16 @@ import datetime
 from flask_login import login_user, current_user, logout_user, login_required
 from loguru import logger
 
-from app import app, db
+from app import db
 from app.forms import ContactForm, RegistrationForm, LoginForm
 from app.models import Contact, User
+from run import app
 
 
-@app.route('/')
-@app.route('/home')
-def homepage():
-    return render_template('homepage.html', title='Home')
+# @app.route('/')
+# @app.route('/home')
+# def homepage():
+#     return render_template('homepage.html', title='Home')
 
 
 @app.route('/contact', methods=["GET", "POST"])
