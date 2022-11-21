@@ -5,6 +5,9 @@ from loguru import logger
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 
+from app.candidate_form import candidate_bp
+from app.home import home_bp
+
 app = Flask(__name__)
 app.config.from_object('config')
 logger.add("out.log")
