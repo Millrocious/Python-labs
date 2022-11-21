@@ -7,17 +7,24 @@ from flask_login import LoginManager
 
 from app.candidate_form import candidate_bp
 from app.home import home_bp
+from config import config
 
-app = Flask(__name__)
-app.config.from_object('config')
+db = SQLAlchemy()
 logger.add("out.log")
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
-login_manager.login_message_category = 'info'
-app.register_blueprint(home_bp)
-app.register_blueprint(candidate_bp)
 
-from app import views, models
+
+def create_app(config_name):
+    app = Flask(__name__)
+    app.config.from_object(config.get(config_name or 'default'))
+    db.init_app(app)
+    migrate = Migrate(app, db)
+    bcrypt = Bcrypt(app)
+    login_manager = LoginManager(app)
+    login_manager.login_view = 'login'
+    login_manager.login_message_category = 'info'
+
+    app.register_blueprint(home_bp)
+    app.register_blueprint(candidate_bp)
+
+    with app.app_context():
+        from app import views, models
