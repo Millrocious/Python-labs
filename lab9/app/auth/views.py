@@ -1,4 +1,5 @@
-from flask import render_template, flash, redirect, url_for
+from urllib.parse import urlparse, urljoin
+from flask import render_template, flash, redirect, url_for, request, abort
 from flask_login import login_required, logout_user, login_user, current_user
 
 from . import auth_bp
@@ -7,11 +8,18 @@ from .models import User
 from .. import db
 
 
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+        ref_url.netloc == test_url.netloc
+
+
 @auth_bp.route('/register', methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
         flash(f'Please logout to create new account!', category='warning')
-        return redirect(url_for('homepage'))
+        return redirect(url_for('home.home'))
     form = RegistrationForm()
     if form.validate_on_submit():
         flash(f'Account created for {form.username.data}!', category='success')
@@ -23,7 +31,7 @@ def register():
         except:
             db.session.rollback()
 
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
     return render_template('register.html', form=form, title='Register')
 
 
@@ -31,14 +39,17 @@ def register():
 def login():
     if current_user.is_authenticated:
         flash(f'You already logged in!', category='warning')
-        return redirect(url_for('homepage'))
+        return redirect(url_for('home.home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = db.session.query(User).filter_by(email=form.email.data).first()
         if user and user.email == form.email.data and user.verify(form.password.data):
             login_user(user, remember=form.remember.data)
             flash('You have been logged in!', category='success')
-            return redirect(url_for('homepage'))
+            next = request.args.get('next')
+            if not is_safe_url(next):
+                return abort(400)
+            return redirect(url_for('home.home'))
         else:
             flash('Login unsuccessful. Please check username and password', category='warning')
     return render_template('login.html', form=form, title='Login')
@@ -48,7 +59,7 @@ def login():
 def logout():
     logout_user()
     flash('You have been logged out', category='success')
-    return redirect(url_for('homepage'))
+    return redirect(url_for('home.home'))
 
 
 @auth_bp.route('/users')
@@ -64,4 +75,3 @@ def users():
 @login_required
 def account():
     return render_template('account.html', title='Account')
-

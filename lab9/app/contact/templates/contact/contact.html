@@ -9,7 +9,7 @@
     <div class="col">
       <h1>Contact</h1>
       <hr>
-      <form action="{{url_for('contact')}}" method="post" class="">
+      <form action="{{url_for('contact.contact')}}" method="post" class="">
         {{ form.hidden_tag() }}
         {% for field in form if field not in [form.submit, form.hidden_tag, form.csrf_token] %}
           {{render_field(field, class="form-control")}}
@@ -17,7 +17,7 @@
 
         <div class="form-group">
           <p>{{ form.submit(class_="form-control btn btn-dark") }}
-          <p><a type="button" class="form-control btn btn-outline-dark" href="{{url_for('reset')}}">Reset</a>
+          <p><a type="button" class="form-control btn btn-outline-dark" href="{{url_for('contact.reset')}}">Reset</a>
         </div>
       </form>
     </div>
