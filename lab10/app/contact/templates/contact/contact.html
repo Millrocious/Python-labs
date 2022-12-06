@@ -1,26 +1,28 @@
 {% extends 'layouts.html' %}
 
 {% block content %}
+
 {% from "_render_field.html" import render_field %}
 
-<link rel="stylesheet" type="text/css" href="{{ url_for('todo_bp.static', filename='main.css') }}">
-<div class="container p-5 mt-5 mb-5 cf">
+<div class="container p-5 mt-5 mb-5 bg-light border border-3 rounded-4">
   <div class="row">
     <div class="col">
-      <h1 class="w-100" style="text-align: center">Category</h1>
+      <h1>Contact</h1>
       <hr>
-      <form action="{{url_for('todo_bp.category_create')}}" method="post" class="">
+      <form action="{{url_for('contact.contact')}}" method="post" class="">
         {{ form.hidden_tag() }}
         {% for field in form if field not in [form.submit, form.hidden_tag, form.csrf_token] %}
-          {{render_field(field, class="form-control f-input")}}
+          {{render_field(field, class="form-control")}}
         {% endfor %}
 
         <div class="form-group">
           <p>{{ form.submit(class_="form-control btn btn-dark") }}
+          <p><a type="button" class="form-control btn btn-outline-dark" href="{{url_for('contact.reset')}}">Reset</a>
         </div>
       </form>
     </div>
   </div>
 
 </div>
+
 {% endblock content %}

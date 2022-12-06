@@ -1,4 +1,76 @@
 {% extends 'layouts.html' %}
 
 {% block content %}
-{% endblock content %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('todo_bp.static', filename='main.css') }}">
+<style>
+    table {
+        border-collapse: separate;
+        border-spacing: 0 20px;
+        margin-top: -10px; /* correct offset on first border spacing if desired */
+    }
+
+    td {
+        border-style: solid none;
+        padding: 25px;
+        background-color: #eeeeee;
+    }
+
+    tr {
+        padding: 10px;
+        border-style: solid none;
+        border-radius: 15px;
+        box-shadow: 0px 0px 6px #c5c5c5;
+    }
+
+    td:first-child {
+        border-left-style: solid;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+    }
+
+    td:last-child {
+        border-right-style: solid;
+        border-bottom-right-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+</style>
+
+<div class="container mt-5 p-5">
+    <h1 class="w-100" style="text-align: center;">Task detail</h1>
+    <table class="table">
+        <tbody>
+        {% for label, text_data in task_detail.items() %}
+        <tr>
+            <td>{{ label }}</td>
+            {% if label == "Priority" or label == "Progress" %}
+            <td>{{ text_data.name }}</td>
+            {% else %}
+            <td>{{ text_data|safe }}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>Assigned</td>
+            <td>
+                {% for user in assigned %}
+                <div class="row">
+                    <div class="col-2">
+                        <a href="#">{{ user.username }}</a>
+                    </div>
+                    <div class="col-9"></div>
+                </div>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a class="btn btn-primary w-100" href="{{ url_for('todo_bp.task_update', task_id=task_id) }}" style="background-color: #c9d393; border: none">Update task</a>
+            </td>
+            <td>
+                <a class="btn btn-primary w-100" href="{{ url_for('todo_bp.task_delete', task_id=task_id) }}" style="background-color: #fd7c7c; border: none">Delete task</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
