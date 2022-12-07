@@ -61,43 +61,28 @@
         <div class="row d-flex justify-content-center mt-5 ">
             <div class="col-md-8">
                 <div class="card" style="text-align: center; border-radius: 30px; box-shadow: 0px 0px 15px #d8d8d8;">
-                    <h1 class="font-weight-bold">Tasks</h1>
+                    <h1 class="font-weight-bold">Categories</h1>
                     <div class="d-flex justify-content-center align-items-center mb-4">
                         <div class="d-flex flex-row w-50">
-                            <a class="btn btn-primary new ms-3 me-3 p-3 " href="{{ url_for('todo_bp.task_create') }}">Create
-                                Task</a>
+                            <a class="btn btn-primary new ms-3 me-3 p-3 " href="{{ url_for('todo_bp.category_create') }}">Create
+                                Category</a>
                         </div>
                     </div>
                     <table>
                         <thead>
                         <tr>
-                            <th scope="col">Title</th>
-                            <th scope="col">Deadline</th>
-                            <th scope="col">Priority</th>
-                            <th scope="col">Progress</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Owner</th>
-                            <th scope="col">Assigned</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for task in task_list %}
+                        {% for category in category_list %}
                             <tr>
-                                <td><a href="{{ url_for('todo_bp.detail_task', task_id=task.id) }}">{{ task.title }}</a>
-                                </td>
-                                <td>{{ task.deadline }}</td>
-                                <td>{{ task.priority.name }}</td>
-                                <td>{{ task.progress.name }}</td>
-                                <td>{{ task.category.name }}</td>
+                                <td>{{ category.id }}</td>
+                                <td>{{ category.name }}</td>
                                 <td>
-                                    <a href="{{ url_for('todo_bp.user_profile', user_id=task.owner_id) }}">{{ task.owner_id }}</a>
-                                </td>
-                                <td>
-                                    {% for user in task.users %}
-                                        <p>
-                                            <a href="{{ url_for('todo_bp.user_profile', user_id=user.id) }}">{{ user.username }}</a>
-                                        </p>
-                                    {% endfor %}
+                                    <a class="btn btn-danger" href="{{ url_for('todo_bp.category_delete', category_id=category.id) }}">Delete</a>
                                 </td>
                             </tr>
                         {% endfor %}

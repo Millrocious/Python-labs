@@ -1,7 +1,7 @@
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, DateField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, Email
 from flask_ckeditor import CKEditorField
 
 from app.todo.models import Category
@@ -33,6 +33,14 @@ class CategoryForm(FlaskForm):
     name = StringField("Name",
                        [DataRequired("Please enter category name."),
                         Length(min=4, max=100, message='Це поле має бути довжиною між 4 та 10 символів')])
+    submit = SubmitField("Send")
+
+
+class AssignUserForm(FlaskForm):
+    email = StringField("Email",
+                       [DataRequired(),
+                        Length(min=4, max=100, message='Це поле має бути довжиною між 4 та 100 символів'),
+                        Email()])
     submit = SubmitField("Send")
 
 

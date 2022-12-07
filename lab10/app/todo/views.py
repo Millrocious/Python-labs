@@ -3,9 +3,10 @@ from flask_login import current_user, login_required
 from loguru import logger
 
 from . import todo_bp
-from .forms import TaskForm, CategoryForm, CommentForm
+from .forms import TaskForm, CategoryForm, CommentForm, AssignUserForm
 from .models import Task, Category, Comment
 from .. import db
+from ..auth.models import User
 
 
 @todo_bp.route('/task/create', methods=["GET", "POST"])
@@ -66,6 +67,23 @@ def category_create():
     return render_template('category_form.html', form=form)
 
 
+@todo_bp.route('/category/', methods=['GET'])
+@login_required
+def list_category():
+    category_list = Category.query.all()
+    return render_template('categories.html', category_list=category_list)
+
+
+@todo_bp.route('/category/<int:category_id>/delete', methods=['GET'])
+@login_required
+def category_delete(category_id):
+    cat = Category.query.filter_by(id=category_id).first()
+    db.session.delete(cat)
+    db.session.commit()
+    flash("Successfully deleted!", category='success')
+    return redirect(url_for("todo_bp.list_category"))
+
+
 @todo_bp.route('/task/<int:task_id>', methods=['GET'])
 @login_required
 def detail_task(task_id):
@@ -90,7 +108,8 @@ def detail_task(task_id):
                            task_id=task.id,
                            form=form,
                            assigned=task.users,
-                           data=data)
+                           data=data,
+                           user=current_user)
 
 
 @todo_bp.route('/task/<int:task_id>/update', methods=['GET', 'POST'])
@@ -144,3 +163,80 @@ def list_task():
     # task_list = Task.query.filter(Task.users.any(id=current_user.id)).all()
     # print(type(task_list[0].owner_id))
     return render_template('tasks.html', title="Update task", task_list=task_list)
+
+
+@todo_bp.route('/task/<int:task_id>/assign/user', methods=['GET', 'POST'])
+@login_required
+def assign_user_task(task_id):
+    task = Task.query.filter_by(id=task_id).first()
+    form = AssignUserForm()
+    if form.validate_on_submit():
+        if task.owner_id != current_user.id:
+            flash("You cannot assign users to this task", category='warning')
+            return redirect(url_for("todo_bp.detail_task", task_id=task_id))
+        if not request.form.get('email'):
+            flash("Fill the email field", category='warning')
+            return redirect(url_for("todo_bp.detail_task", task_id=task_id))
+        user = User.query.filter_by(email=form.email.data).first()
+        if not user:
+            flash("No user with such email", category='warning')
+            return redirect(url_for("todo_bp.detail_task", task_id=task_id))
+        task.users.append(user)
+        db.session.add(task)
+        db.session.commit()
+        flash("Successfully assigned user", category='success')
+
+    elif request.method == 'POST':
+        flash("Не пройшла валідація з Post", category='warning')
+        return redirect(url_for("todo_bp.assign_user_task", task_id=task_id))
+
+    return render_template('assign_user.html', task_id=task_id, form=form)
+
+
+@todo_bp.route('/task/<int:task_id>/discard/user', methods=['GET', 'POST'])
+@login_required
+def discard_user_task(task_id):
+    task = Task.query.filter_by(id=task_id).first()
+    if task.owner_id != current_user.id:
+        flash("You cannot discard users from this task", category='warning')
+        return redirect(url_for("todo_bp.detail_task", task_id=task_id))
+    user = User.query.filter_by(id=request.form.get('user_id')).first()
+    task.users.remove(user)
+    db.session.add(task)
+    db.session.commit()
+    flash("Successfully discarded user", category='success')
+    return redirect(url_for("todo_bp.detail_task", task_id=task_id))
+
+
+@todo_bp.route('/user/profile/<int:user_id>')
+@login_required
+def user_profile(user_id):
+    user_info = User.query.filter_by(id=user_id).first()
+    task_list = user_info.tasks
+    # task_list = Task.query.filter(Task.users.any(id=user_id)).all()
+    return render_template('user_account.html', user_info=user_info, task_list=task_list)
+
+
+@todo_bp.route('/task/add_comment/<int:task_id>', methods=['GET', 'POST'])
+@login_required
+def add_comment(task_id):
+    task = current_user.tasks.filter_by(id=task_id).first()
+    if not task:
+        flash("You cannot add comment to this task", category='warning')
+        return redirect(url_for("todo_bp.detail_task", task_id=task_id))
+    form = CommentForm()
+    if form.validate_on_submit():
+        text = form.text.data
+        comment = Comment(text=text,
+                          owner_id=current_user.id,
+                          task_id=task_id)
+        db.session.add(comment)
+        db.session.commit()
+
+        flash(f"Comment successfully added", category='success')
+        return redirect(url_for("todo_bp.detail_task", task_id=task_id))
+
+    elif request.method == 'POST':
+        flash("Не пройшла валідація з Post", category='warning')
+
+    return render_template('comment_form.html', title="Task", task_id=task_id, form=form)

@@ -69,8 +69,33 @@
             <td>
                 <a class="btn btn-primary w-100" href="{{ url_for('todo_bp.task_delete', task_id=task_id) }}" style="background-color: #fd7c7c; border: none">Delete task</a>
             </td>
+
+        </tr>
+        <tr>
+            <td>
+                <a class="btn btn-primary w-100" href="{{ url_for('todo_bp.assign_user_task', task_id=task_id) }}" style="background-color: #c9d393; border: none">Assign user</a>
+            </td>
+            <td>
+                <form class="row g-3" action="{{ url_for('todo_bp.discard_user_task', task_id=task_id) }}" method="post">
+                    <input type="text" style="display:none" name="user_id" value="{{ user.id }}">
+                    <button type="submit" class="btn btn-primary w-100" style="background-color: #fd7c7c; border: none">Discard user</button>
+                </form>
+            </td>
         </tr>
         </tbody>
+
     </table>
+<a class="btn btn-primary w-100" href="{{ url_for('todo_bp.add_comment', task_id=task_id) }}" style="background-color: #7dafd3; border: none">Add comment</a>
 </div>
+    <div class="container mt-5 p-5 mb-5">
+        <h1 class="w-100" style="text-align: center;">Comments</h1>
+        {% for comment in data['comments'] %}
+            <table>
+            <tr>
+              <td>UserID: {{ comment.owner_id }}</td>
+              <td style="word-break: break-all;">{{ comment.text|safe }}</td>
+            </tr>
+            </table>
+        {% endfor %}
+    </div>
 {% endblock %}
