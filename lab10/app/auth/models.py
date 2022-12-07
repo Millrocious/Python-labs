@@ -15,6 +15,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(60), unique=True, nullable=False)
     # image_file = db.Column(db.String(40), nullable=False, default='default.jpg')
     password = db.Column(db.String(40), unique=False, nullable=False)
+    tasks_owned = db.relationship('Task', backref='owner', lazy='dynamic')
+    comments = db.relationship('Comment', backref='users', lazy='dynamic')
 
     def __init__(self, username, email, password):
         self.username = username

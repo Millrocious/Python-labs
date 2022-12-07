@@ -152,3 +152,9 @@ FROM contact
                                 priority=1,
                                 progress=1,
                                 owner=<User 'new_user1'>
+2022-12-07 15:41:45.711 | DEBUG    | app.todo.views:task_create:17 - title=fdsfsdf,
+                                message=fdsfsdfsd,
+                                deadline=2022-12-08,
+                                priority=1,
+                                progress=1,
+                                owner=<User 'new_user1'>

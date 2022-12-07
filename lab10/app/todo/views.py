@@ -33,7 +33,7 @@ def task_create():
                          priority=priority,
                          progress=progress,
                          category_id=category,
-                         owner_id=current_user.id)
+                         owner=current_user)
         task_info.users.append(current_user)
         db.session.add(task_info)
         db.session.commit()
