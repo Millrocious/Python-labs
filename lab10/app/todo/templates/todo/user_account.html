@@ -23,7 +23,7 @@
               <td>{{ task.deadline }}</td>
               <td>{{ task.priority }}</td>
               <td>{{ task.progress }}</td>
-              <td><a href="{{ url_for('todo_bp.user_profile', user_id=task.owner_id) }}">{{ task.owner_id }}</a></td>
+              <td><a href="{{ url_for('todo_bp.user_profile', user_id=task.owner_id) }}">{{ task.owner.username }}</a></td>
               <td>
                   {% for user in task.users %}
                       <p><a href="{{ url_for('todo_bp.user_profile', user_id=user.id) }}">{{ user.username }}</a></p>
