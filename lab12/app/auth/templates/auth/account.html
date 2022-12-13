@@ -1,0 +1,31 @@
+{% extends 'layouts.html' %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('auth.static', filename='main.css') }}">
+    <div class="container container-box mt-5 mb-5" style="padding: 40px;">
+        <div>
+            <div class="media d-flex flex-row">
+                <img class="rounded-circle account-img" src="{{ image_file }}" width="125" height="125">
+                <div class="media-body mx-4">
+                    <h2 class="account-heading">{{ current_user.username }}</h2>
+                    <p class="text-secondary">Email: {{ current_user.email }}</p>
+                    <p class="text-secondary">About: {{ current_user.about_me }}</p>
+                    <p class="text-secondary">Last seen: {{ current_user.last_seen }}</p>
+                </div>
+            </div>
+        </div>
+        <hr class="w-25">
+        <h3>Account info</h3>
+        {% from "_render_field.html" import render_field %}
+
+        <form method="post" class="w-75" action="{{ url_for('auth.account_profile') }}" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            {% for field in form if field not in [form.submit, form.hidden_tag, form.csrf_token] %}
+                {{ render_field(field, class="form-control" if not field.render_kw else field.render_kw.class) }}
+            {% endfor %}
+            {{ form.submit(class="btn btn-primary my-2") }}
+        </form>
+
+        <a href="{{ url_for('auth.reset_password') }}" class="btn btn-secondary my-3">Reset password</a>
+    </div>
+{% endblock %}
