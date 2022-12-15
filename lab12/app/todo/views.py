@@ -19,6 +19,7 @@ def task_create():
                                 deadline={form.deadline.data},
                                 priority={form.priority.data},
                                 progress={form.progress.data},
+                                category={form.category.data},
                                 owner={current_user}""")
 
         title = form.title.data

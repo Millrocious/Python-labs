@@ -20,17 +20,6 @@ def is_safe_url(target):
         ref_url.netloc == test_url.netloc
 
 
-def login_required(test):
-    @wraps(test)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return test(*args, **kwargs)
-        else:
-            flash('You need to login first.')
-            return redirect(url_for('users.login'))
-    return wrap
-
-
 @auth_bp.route('/register', methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
@@ -47,7 +36,7 @@ def register():
         except:
             db.session.rollback()
 
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('home.home'))
     return render_template('register.html', form=form, title='Register')
 
 
@@ -75,6 +64,7 @@ def login():
 
 
 @auth_bp.route('/logout')
+@login_required
 def logout():
     logout_user()
     session.pop('logged_in', None)

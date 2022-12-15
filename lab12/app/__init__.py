@@ -15,9 +15,9 @@ login_manager.login_view = 'auth.login'
 login_manager.login_message_category = 'info'
 
 
-def create_app(config_name='default'):
+def create_app(config_name='test'):
     app = Flask(__name__)
-    app.config.from_object(config.get(config_name or 'default'))
+    app.config.from_object(config.get(config_name or 'test'))
 
     db.init_app(app)
     migrate.init_app(app, db)
