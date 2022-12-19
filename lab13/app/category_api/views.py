@@ -63,14 +63,14 @@ def add_category():
 
     category = Category.query.filter_by(name=name).first()
     if category:
-        return jsonify({'message': f'Категорія з назвою {name} існує'}), 400
+        return jsonify({'message': f'Category {name} already exist'}), 400
 
     try:
         category_new = Category(name=name)
         db.session.add(category_new)
         db.session.commit()
     except:
-        return jsonify({'message': f'Невідома помилка на стороні сервера'}), 500
+        return jsonify({'message': f'Server issue'}), 500
 
     category_add = Category.query.filter_by(name=name).first()
 
