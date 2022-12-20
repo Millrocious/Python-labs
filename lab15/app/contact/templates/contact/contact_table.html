@@ -1,0 +1,32 @@
+{% extends 'layouts.html' %}
+
+{% block content %}
+<div class="m-5">
+   <table class="table table-striped table-dark rounded rounded-3 overflow-hidden ">
+         <thead>
+            <tr>
+               <th scope="col">Name</th>
+               <th scope="col">Email</th>
+               <th scope="col">Phone</th>
+               <th scope="col">Subject</th>
+               <th scope="col">Message</th>
+               <th scope="col">Actions</th>
+            </tr>
+         </thead>
+
+         <tbody>
+            {% for contact in contacts %}
+               <tr>
+                  <td>{{ contact.name }}</td>
+                  <td>{{ contact.email }}</td>
+                  <td>{{ contact.phone }}</td>
+                  <td>{{ contact.subject }}</td>
+                  <td>{{ contact.message }}</td>
+                  <td><a class="btn btn-danger" href="{{ url_for('delete_contact', contact_id=contact.id) }}">Remove</a></td>
+               </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+</div>
+
+{% endblock content %}

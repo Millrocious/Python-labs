@@ -1,0 +1,11 @@
+.container-box {
+    width: 800px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 0 20px #d5d5d5;
+}
+
+.f-input {
+    border-radius: 10px;
+    border: 1px solid #c5c5c5;
+}
