@@ -1,0 +1,111 @@
+{% extends 'layouts.html' %}
+
+{% block content %}
+    <style>
+
+        .new {
+            font-size: 12px;
+            width: 100%;
+        }
+
+        .card {
+
+            padding: 20px;
+            border: none;
+
+
+        }
+
+
+        .active {
+
+            background: #f6f7fb !important;
+            border-color: #f6f7fb !important;
+            color: #000 !important;
+            font-size: 12px;
+
+        }
+
+
+        .task_box {
+            background-color: #eeeeee;
+            padding: 20px;
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            margin-top: -10px; /* correct offset on first border spacing if desired */
+        }
+
+        td {
+            border: solid 2px #d5d5d5;
+            border-style: solid none;
+            padding: 10px;
+            background-color: #eeeeee;
+        }
+
+        td:first-child {
+            border-left-style: solid;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+
+        td:last-child {
+            border-right-style: solid;
+            border-bottom-right-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+    </style>
+    <div class="container">
+        <div class="row d-flex justify-content-center mt-5 ">
+            <div class="col-md-8">
+                <div class="card" style="text-align: center; border-radius: 30px; box-shadow: 0px 0px 15px #d8d8d8;">
+                    <h1 class="font-weight-bold">Tasks</h1>
+                    <div class="d-flex justify-content-center align-items-center mb-4">
+                        <div class="d-flex flex-row w-50">
+                            <a class="btn btn-primary new ms-3 me-3 p-3 " href="{{ url_for('todo_bp.task_create') }}">Create
+                                Task</a>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Deadline</th>
+                            <th scope="col">Priority</th>
+                            <th scope="col">Progress</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Owner</th>
+                            <th scope="col">Assigned</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for task in task_list %}
+                            <tr>
+                                <td><a href="{{ url_for('todo_bp.detail_task', task_id=task.id) }}">{{ task.title }}</a>
+                                </td>
+                                <td>{{ task.deadline }}</td>
+                                <td>{{ task.priority.name }}</td>
+                                <td>{{ task.progress.name }}</td>
+                                <td>{{ task.category.name }}</td>
+                                <td>
+                                    <a href="{{ url_for('todo_bp.user_profile', user_id=task.owner_id) }}">{{ task.owner_id }}</a>
+                                </td>
+                                <td>
+                                    {% for user in task.users %}
+                                        <p>
+                                            <a href="{{ url_for('todo_bp.user_profile', user_id=user.id) }}">{{ user.username }}</a>
+                                        </p>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
