@@ -4,7 +4,7 @@ from wtforms import StringField, SubmitField, SelectField, DateField
 from wtforms.validators import DataRequired, Length, Email
 from flask_ckeditor import CKEditorField
 
-from app.todo.models import Category
+from app.todo.models import Category, Priority, Progress
 
 
 def get_category_list():
@@ -19,8 +19,16 @@ class TaskForm(FlaskForm):
     description = CKEditorField('Description',
                                 validators=[Length(max=2048, message='Це поле має бути довжиною до 2048 символів')])
     deadline = DateField('Deadline')
-    priority = SelectField('Priority', choices=[(1, 'Low'), (2, 'Medium'), (3, 'High')])
-    progress = SelectField('Progress', choices=[(1, 'Todo'), (2, 'Doing'), (3, 'Done')])
+    priority = SelectField(
+        'Priority',
+        choices=[(name, name) for name in Priority._member_names_],
+        render_kw={"class": "form-select"}
+    )
+    progress = SelectField(
+        'Priority',
+        choices=[(name, name) for name in Progress._member_names_],
+        render_kw={"class": "form-select"}
+    )
     category = SelectField("Category")
     submit = SubmitField("Send")
 

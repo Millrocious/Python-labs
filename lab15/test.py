@@ -140,8 +140,8 @@ class FlaskTestCase(BaseTestCase):
                                         title='Test task',
                                         message='task desc',
                                         deadline='2022-12-15',
-                                        priority=1,
-                                        progress=1,
+                                        priority="high",
+                                        progress="todo",
                                         category=1
                                     ),
                                     follow_redirects=True)
@@ -163,8 +163,8 @@ class FlaskTestCase(BaseTestCase):
                                         title='Test task',
                                         description='task desc',
                                         deadline='2022-12-15',
-                                        priority=1,
-                                        progress=1,
+                                        priority="high",
+                                        progress="todo",
                                         category=1
                                     ),
                                     follow_redirects=True)
@@ -191,8 +191,8 @@ class FlaskTestCase(BaseTestCase):
                                         title='Test task',
                                         description='task desc',
                                         deadline='2022-12-15',
-                                        priority=1,
-                                        progress=1,
+                                        priority="high",
+                                        progress="todo",
                                         category=1
                                     ),
                                     follow_redirects=True)
@@ -219,8 +219,8 @@ class FlaskTestCase(BaseTestCase):
                                         title='Test task',
                                         description='task desc',
                                         deadline='2022-12-15',
-                                        priority=1,
-                                        progress=1,
+                                        priority="high",
+                                        progress="todo",
                                         category=1
                                     ),
                                     follow_redirects=True)
@@ -233,8 +233,8 @@ class FlaskTestCase(BaseTestCase):
                                         title='updated test task',
                                         description='updated task desc',
                                         deadline='2022-12-15',
-                                        priority=2,
-                                        progress=2,
+                                        priority="low",
+                                        progress="todo",
                                         category=1
                                     ),
                                     follow_redirects=True)
@@ -261,8 +261,8 @@ class FlaskTestCase(BaseTestCase):
                                         title='Test task',
                                         description='task desc',
                                         deadline='2022-12-15',
-                                        priority=1,
-                                        progress=1,
+                                        priority="high",
+                                        progress="todo",
                                         category=1
                                     ),
                                     follow_redirects=True)
