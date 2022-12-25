@@ -30,7 +30,6 @@ def create_app(config_name='default'):
     global SECRET_KEY
     SECRET_KEY = app.secret_key
 
-    register_blueprints(app)
     register_cli_commands(app)
 
     # Check if the database needs to be initialized
@@ -43,10 +42,7 @@ def create_app(config_name='default'):
             app.logger.info('Initialized the database!')
     else:
         app.logger.info('Database already contains the users table.')
-    return app
 
-
-def register_blueprints(app):
     with app.app_context():
         from app.contact import contact_bp
         from app.home import home_bp
@@ -63,6 +59,8 @@ def register_blueprints(app):
         app.register_blueprint(category_bp, url_prefix='/api')
         app.register_blueprint(task_api_bp, url_prefix='/api/v2')
         app.register_blueprint(swagger_bp)
+
+    return app
 
 
 def register_cli_commands(app):

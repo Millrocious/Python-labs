@@ -21,12 +21,14 @@ def tomorrow_date():
 
 
 task_user = db.Table('task_user',
-                     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-                     db.Column('task_id', db.Integer, db.ForeignKey('task.id'))
+                     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+                     db.Column('task_id', db.Integer, db.ForeignKey('tasks.id'))
                      )
 
 
 class Task(db.Model):
+    __tablename__ = "tasks"
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(128))
     description = db.Column(db.String(2048), nullable=True, default=None)
@@ -35,8 +37,8 @@ class Task(db.Model):
     deadline = db.Column(db.DateTime, default=tomorrow_date)
     priority = db.Column(db.Enum(Priority), default='low')
     progress = db.Column(db.Enum(Progress), default='todo')
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
-    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     users = db.relationship('User', secondary=task_user, backref=db.backref('tasks', lazy='dynamic'), lazy='dynamic')
     comments = db.relationship('Comment', backref='tasks', lazy='dynamic')
 
@@ -45,16 +47,20 @@ class Task(db.Model):
 
 
 class Category(db.Model):
+    __tablename__ = "categories"
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128))
-    tasks = db.relationship('Task', backref='category', lazy='dynamic')
+    tasks = db.relationship('Task', backref='categories', lazy='dynamic')
 
     def __repr__(self):
         return f"Category('{self.name}')"
 
 
 class Comment(db.Model):
+    __tablename__ = "comments"
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     text = db.Column(db.String(2048))
-    task_id = db.Column(db.Integer, db.ForeignKey('task.id'))
-    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
