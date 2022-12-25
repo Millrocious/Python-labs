@@ -6,6 +6,8 @@ from loguru import logger
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from config import config
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 import sqlalchemy as sa
 
 db = SQLAlchemy()
@@ -30,18 +32,6 @@ def create_app(config_name='default'):
     global SECRET_KEY
     SECRET_KEY = app.secret_key
 
-    register_cli_commands(app)
-
-    engine = sa.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
-    inspector = sa.inspect(engine)
-    if not inspector.has_table("users"):
-        with app.app_context():
-            db.drop_all()
-            db.create_all()
-            app.logger.info('Initialized the database!')
-    else:
-        app.logger.info('Database already contains the users table.')
-
     with app.app_context():
         from app.contact import contact_bp
         from app.home import home_bp
@@ -58,6 +48,22 @@ def create_app(config_name='default'):
         app.register_blueprint(category_bp, url_prefix='/api')
         app.register_blueprint(task_api_bp, url_prefix='/api/v2')
         app.register_blueprint(swagger_bp)
+
+    register_cli_commands(app)
+    with app.app_context():
+        from app.admin import create_module
+        create_module(app, db)
+
+    engine = sa.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+    inspector = sa.inspect(engine)
+    if not inspector.has_table("users"):
+        with app.app_context():
+            db.drop_all()
+            db.create_all()
+            app.logger.info('create tables...')
+            app.logger.info('Initialized the database!')
+    else:
+        app.logger.info('Database already contains the users table.')
 
     return app
 
