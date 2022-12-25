@@ -6,8 +6,6 @@ from loguru import logger
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from config import config
-from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
 import sqlalchemy as sa
 
 db = SQLAlchemy()
