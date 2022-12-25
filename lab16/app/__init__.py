@@ -32,11 +32,17 @@ def create_app(config_name='default'):
 
     register_cli_commands(app)
 
-    with app.app_context():
-        db.drop_all()
-        db.create_all()
-        app.logger.info('Initialized the database!')
+    engine = sa.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+    inspector = sa.inspect(engine)
+    if not inspector.has_table("users"):
+        with app.app_context():
+            db.drop_all()
+            db.create_all()
+            app.logger.info('Initialized the database!')
+    else:
+        app.logger.info('Database already contains the users table.')
 
+    with app.app_context():
         from app.contact import contact_bp
         from app.home import home_bp
         from app.auth import auth_bp
