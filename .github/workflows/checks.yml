@@ -22,3 +22,8 @@ jobs:
       - name: Run tests
         run: |
           python lab16/test.py
+      - name: Deploy to Render
+        env:
+          DEPLOY_URL: ${{ secrets.DEPLOY_URL }}
+        run: |
+          curl "$DEPLOY_URL"
