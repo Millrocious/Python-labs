@@ -333,3 +333,10 @@ FROM contact
                                 progress=todo,
                                 category=1,
                                 owner=<User 'test'>
+2022-12-25 12:38:36.773 | DEBUG    | app.todo.views:task_create:17 - title=sdfsdfsdfsd,
+                                message=fdsfsdfsdfsdfsdfsdfsd,
+                                deadline=2022-11-30,
+                                priority=low,
+                                progress=todo,
+                                category=1,
+                                owner=<User 'new_user1'>

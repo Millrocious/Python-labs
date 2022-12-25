@@ -88,7 +88,7 @@
                                 <td>{{ task.deadline }}</td>
                                 <td>{{ task.priority.name }}</td>
                                 <td>{{ task.progress.name }}</td>
-                                <td>{{ task.category.name }}</td>
+                                <td>{{ task.categories.name }}</td>
                                 <td>
                                     <a href="{{ url_for('todo_bp.user_profile', user_id=task.owner_id) }}">{{ task.owner_id }}</a>
                                 </td>
