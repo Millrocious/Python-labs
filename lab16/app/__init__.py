@@ -39,6 +39,10 @@ def create_app(config_name='default'):
         from app.task_api import task_api_bp
         from app.swagger import swagger_bp
 
+        from app.admin import create_module
+        admin = create_module(db)
+        admin.init_app(app)
+
         app.register_blueprint(contact_bp)
         app.register_blueprint(auth_bp)
         app.register_blueprint(home_bp)
@@ -48,9 +52,6 @@ def create_app(config_name='default'):
         app.register_blueprint(swagger_bp)
 
     register_cli_commands(app)
-    with app.app_context():
-        from app.admin import create_module
-        create_module(app, db)
 
     engine = sa.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
     inspector = sa.inspect(engine)
