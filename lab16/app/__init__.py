@@ -55,12 +55,20 @@ def create_app(config_name='default'):
 
     engine = sa.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
     inspector = sa.inspect(engine)
-    if not inspector.has_table("users"):
+    if not inspector.has_table("usersss"):
         with app.app_context():
             db.drop_all()
             db.create_all()
             app.logger.info('create tables...')
             app.logger.info('Initialized the database!')
+
+            from app.auth.models import User
+            admin_user = User(username="Admin",
+                              email="admin@email.com",
+                              password="admin_user")
+            admin_user.is_admin = True
+            db.session.add(admin_user)
+            db.session.commit()
     else:
         app.logger.info('Database already contains the users table.')
 
@@ -74,6 +82,3 @@ def register_cli_commands(app):
         db.drop_all()
         db.create_all()
         echo('Initialized the database!')
-
-
-
