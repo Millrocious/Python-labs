@@ -20,7 +20,7 @@ class User(db.Model, UserMixin):
     about_me = db.Column(db.String(120), nullable=True)
     last_seen = db.Column(db.DateTime, default=now())
     admin = db.Column(db.Boolean, default=False, unique=False)
-    password_hashed = db.Column(db.String(40), unique=False, nullable=False)
+    password_hashed = db.Column(db.String(200), unique=False, nullable=False)
     tasks_owned = db.relationship('Task', backref='owner', lazy='dynamic')
     comments = db.relationship('Comment', backref='users', lazy='dynamic')
 
