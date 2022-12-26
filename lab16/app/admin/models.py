@@ -18,8 +18,8 @@ class UserModelView(MyModelView):
                          password_hashed='Password')
 
     def on_model_change(self, form, model, is_created):
-        # If creating a new user, hash password
-        model.password_hashed = bcrypt.generate_password_hash(form.password_hashed.data).decode('utf-8')
+        enc_password = form.password_hashed.data.encode('utf-8')
+        model.password_hashed = bcrypt.generate_password_hash(enc_password).decode('utf-8')
 
 
 class TaskModelView(MyModelView):
