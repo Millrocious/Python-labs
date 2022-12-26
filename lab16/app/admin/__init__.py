@@ -16,7 +16,7 @@ class MyAdminIndexView(AdminIndexView):
         if not current_user.is_authenticated:
             flash('Please log in first...', 'error')
             return redirect(url_for('auth.login'))
-        if current_user.admin:
+        if current_user.is_admin:
             return super(MyAdminIndexView, self).index()
         else:
             return redirect(url_for("main"))
