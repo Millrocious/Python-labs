@@ -7,11 +7,15 @@ from app.admin.views import MyModelView
 class UserModelView(MyModelView):
     form_columns = ('username',
                     'email',
-                    'image_file',
                     'about_me',
-                    'last_seen',
                     'is_admin',
                     'password_hashed')
+
+    column_labels = dict(username='username',
+                         email='Email',
+                         about_me='About me',
+                         is_admin='Is admin',
+                         password_hashed='Password')
 
     def on_model_change(self, form, model, is_created):
         # If creating a new user, hash password
