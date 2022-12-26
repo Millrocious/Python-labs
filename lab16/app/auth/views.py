@@ -28,13 +28,11 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         flash(f'Account created for {form.username.data}!', category='success')
-        try:
-            db.session.add(User(username=form.username.data,
-                                email=form.email.data,
-                                password=form.password.data))
-            db.session.commit()
-        except:
-            db.session.rollback()
+        db.session.add(User(username=form.username.data,
+                            email=form.email.data,
+                            password=form.password.data))
+        db.session.commit()
+        db.session.rollback()
 
         return redirect(url_for('home.home'))
     return render_template('register.html', form=form, title='Register')
